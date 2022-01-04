@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" ></script>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form id="frmInicio">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            Proyecto Final
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="./../miperfil.xhtml">Home</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <h:commandLink action="listadoTiendas?faces-redirect=true"
+                                                   class="nav-item nav-link">
+                                        Listado Tiendas
+                                    </h:commandLink>
+                                </li>
+                                <li class="nav-item">
+                                    <h:commandLink action="listadoGerentes?faces-redirect=true"
+                                                   class="nav-item nav-link">
+                                        Listado Gerentes
+                                    </h:commandLink>
+                                </li>
+                                <li class="nav-item">
+                                    <h:commandLink action="listadoCompras?faces-redirect=true"
+                                                   class="nav-item nav-link">
+                                        Listado Compras
+                                    </h:commandLink>
+                                </li>
+                                <li class="nav-item">
+                                    <h:commandLink action="#{gerenteMB.logout()}" class="btn btn-outline-secondary nav-item nav-link" value="Logout">
+                                    </h:commandLink>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </h:form>      
+            <br/>
+            <div class="card border-primary mb-3">
+                <div class="card-header">
+                    <h2 class="text-primary text-center">
+                        Listado de Compras
+                    </h2>
+                </div>
+                <div class="card-body text-primary">
+                    <div class="table-responsive">    
+                        <f:view>
+                            <h:form id="frmCompras">
+                                <h:commandLink action="#{compraMB.prepareGraph()}"
+                                               immediate="true"
+                                               class="btn btn-outline-success">
+                                    Gráficar ventas de productos.
+                                </h:commandLink>
+                                <br/>
+                                <br/>
+                                <h:commandLink action="#{compraMB.prepareGraph()}"
+                                               immediate="true"
+                                               class="btn btn-outline-info">
+                                    Generar reporte de ventas de productos.
+                                </h:commandLink>
+                                <br/>
+                                <h:dataTable 
+                                    var="dto"
+                                    value="#{compraMB.listaCompras}"
+                                    class="table table-striped"
+                                    >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblIdCompra" value="Clave Compra"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.idCompra}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblemail" value="Email Usuario"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.email}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblIdProducto" value="Producto"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.idProducto.product_name}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblNumProductos" value="Numero de Productos"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.cantidad}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblPago" value="Total Compra"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.pago}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lbldate" value="Fecha de la Compra"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.fecha}" />
+                                    </h:column>
+                                    
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblAccioneliminar" value="Eliminar"/>
+                                        </f:facet>
+                                        <h:commandLink
+                                            action="#{compraMB.delete()}"
+                                            actionListener="#{compraMB.seleccionarCompra}"
+                                            immediate="true"
+                                            class="btn btn-outline-danger">
+                                            <f:param 
+                                                name="claveSel"
+                                                value="#{dto.idCompra}"/>
+                                            Eliminar Compra
+                                        </h:commandLink>
+                                    </h:column>
+
+
+                                </h:dataTable>
+                            </h:form>
+                        </f:view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

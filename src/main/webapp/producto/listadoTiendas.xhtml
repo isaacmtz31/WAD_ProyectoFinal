@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" ></script>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form id="frmInicio">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            Proyecto Final
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="./../miperfil.xhtml">Home</a>
+                                </li>
+                                
+                                <li class="nav-item">
+                                    <h:commandLink action="listadoTiendas?faces-redirect=true"
+                                                   class="nav-item nav-link">
+                                        Listado Tiendas
+                                    </h:commandLink>
+                                </li>
+                                <li class="nav-item">
+                                    <h:commandLink action="listadoGerentes?faces-redirect=true"
+                                                   class="nav-item nav-link">
+                                        Listado Gerentes
+                                    </h:commandLink>
+                                </li>
+                                <li class="nav-item">
+                                    <h:commandLink action="listadoCompras?faces-redirect=true"
+                                                   class="nav-item nav-link">
+                                        Listado Compras
+                                    </h:commandLink>
+                                </li>
+                                <li class="nav-item">
+                                <h:commandLink action="#{gerenteMB.logout()}" class="btn btn-outline-secondary nav-item nav-link" value="Logout">
+                                </h:commandLink>
+                            </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </h:form>      
+            <br/>
+            <div class="card border-primary mb-3">
+                <div class="card-header">
+                    <h2 class="text-primary text-center">
+                        Listado de Tiendas
+                    </h2>
+                </div>
+                <div class="card-body text-primary">
+                    <div class="table-responsive">    
+                        <f:view>
+                            <h:form id="frmTiendas">
+                                <h:commandLink action="#{tiendaMB.prepareAdd()}"
+                                               immediate="true"
+                                               class="btn btn-outline-success">
+                                    Agregar nueva tienda
+                                </h:commandLink>
+                                <br/>
+
+                                <h:dataTable 
+                                    var="dto"
+                                    value="#{tiendaMB.listaTiendas}"
+                                    class="table table-striped"
+                                    >
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblIdTienda" value="Clave Tienda"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.idTienda}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblNombreTienda" value="Nombre Tienda"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.nombreTienda}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblDireccionTienda" value="Direccion Tienda"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.direccionTienda}" />
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblTelefonoTienda" value="Telefono Tienda"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.telefonoTienda}" />
+                                    </h:column>
+                                    
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblGerenteTienda" value="Gerente Tienda"/>
+                                        </f:facet>
+                                        <h:outputText value="#{dto.idGerente.nombreGerente}" />
+                                    </h:column>
+                                    
+
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblAccionActualizar" value="Actualizar"/>
+                                        </f:facet>
+                                        <h:commandLink
+                                            action="#{tiendaMB.prepareUpdate()}"
+                                            actionListener="#{tiendaMB.seleccionarTienda}"
+                                            immediate="true"
+                                            class="btn btn-outline-warning">
+                                            <f:param 
+                                                name="claveSel"
+                                                value="#{dto.idTienda}"/>
+                                            Actualizar Tienda
+                                        </h:commandLink>
+                                    </h:column>
+                                    
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblAccioneliminar" value="Eliminar"/>
+                                        </f:facet>
+                                        <h:commandLink
+                                            action="#{tiendaMB.delete()}"
+                                            actionListener="#{tiendaMB.seleccionarTienda}"
+                                            immediate="true"
+                                            class="btn btn-outline-danger">
+                                            <f:param 
+                                                name="claveSel"
+                                                value="#{dto.idTienda}"/>
+                                            Eliminar Tienda
+                                        </h:commandLink>
+                                    </h:column>
+                                    
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblAccionVerCat" value="Ver los productos de la tienda"/>
+                                        </f:facet>
+                                        <h:commandLink
+                                            action="#{productoMB.get_filtered_products()}"
+                                            actionListener="#{productoMB.seleccionarProductosdeTienda}"
+                                            immediate="true"
+                                            class="btn btn-outline-success">
+                                            <f:param 
+                                                name="claveSel"
+                                                value="#{dto.idTienda}"/>
+                                            Ver todos los productos de la tienda
+                                        </h:commandLink>
+                                    </h:column>
+                                    
+                                    <h:column>
+                                        <f:facet name="header">
+                                            <h:outputLabel id="lblAccionVerProd" value="Ver todos las categorias de la tienda"/>
+                                        </f:facet>
+                                        <h:commandLink
+                                            action="#{categoriaMB.get_filtered_categories()}"
+                                            actionListener="#{categoriaMB.seleccionarCategoriasdeTiendas}"
+                                            immediate="true"
+                                            class="btn btn-outline-info">
+                                            <f:param 
+                                                name="claveSel"
+                                                value="#{dto.idTienda}"/>
+                                            
+                                            Ver las categorías de la tienda
+                                        </h:commandLink>
+                                    </h:column>
+
+
+                                </h:dataTable>
+                            </h:form>
+                        </f:view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

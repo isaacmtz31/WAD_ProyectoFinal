@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>GerManager</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" ></script>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form id="frmInicio">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            Proyecto Final
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="login.xhtml">Login</a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </h:form>    
+            <br/>
+            <div>
+                <h1>
+                    <center>
+                        Bienvenido, aquí podrás encontrar productos para comprar
+                    </center>
+                </h1>
+            </div>
+            <br/>
+            <div class="card border-primary mb-3">
+                <div class="card-header">
+                    <h2 class="text-primary text-center">
+                        Listado de productos
+                    </h2>
+                    <div class="card-body text-primary">
+                        <div class="table-responsive">
+
+                            <f:view>
+                                <h:form id="frm-products">
+
+                                    <p:dataTable var="dto"
+                                                 value="#{productoMB.product_list}"
+                                                 paginator="true"
+                                                 rows="1"
+                                                 paginatorPosition="bottom"
+                                                 size="small"
+                                                 stripedRows="true"
+                                                 style="margin: 0 auto;"
+                                                 >
+                                        <center>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel id="lbl-product-id" value="#{msgUI['producto.id_producto']}" />
+                                                </f:facet>
+                                                <h:outputText  value="#{dto.product_id}" />
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputLabel id="lbl-comprar" value="Producto" />
+                                                </f:facet>
+
+                                                <div class="card" style="width: 18rem;">
+                                                    <img src="https://www.vinotecadelalto.cl/wp-content/uploads/2019/11/test-product.png" class="card-img-top" alt="..." />
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">"#{dto.product_name}"</h5>
+                                                        <p class="card-text">"#{dto.product_description}"</p>
+                                                    </div>
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item">Precio: $"#{dto.product_price}"</li>
+                                                        <li class="list-group-item">Existencia "#{dto.product_stock}"</li>                                                        
+                                                    </ul>
+                                                    <div class="card-body">
+                                                        <p:commandLink actionListener="#{compraMB.seleccionarProducto}"
+                                                                        action="#{compraMB.prepareAdd()}"
+                                                                       class="btn btn-outline-primary"
+                                                                       immediate="true">
+                                                            Comprar producto
+                                                            <f:param name="claveSel" value="#{dto.product_id}" />                                                                                                    
+                                                            
+                                                        </p:commandLink>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </p:column>
+
+                                        </center>
+                                    </p:dataTable>
+                                </h:form>
+                            </f:view>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </h:body>
+</html>
+
